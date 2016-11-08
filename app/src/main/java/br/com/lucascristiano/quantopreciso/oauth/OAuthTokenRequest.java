@@ -108,11 +108,11 @@ public class OAuthTokenRequest {
         return credential;
     }
 
-    public void resourceRequest(Context context,int method,String url, Response.Listener<String> listener, Response.ErrorListener errorListener){
+    public void resourceRequest(Context context, int method, String url, Response.Listener<String> listener, Response.ErrorListener errorListener){
         RequestQueue queue = Volley.newRequestQueue(context);
 
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,listener, errorListener) {
+        StringRequest stringRequest = new StringRequest(method, url,listener, errorListener) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<String, String>();
