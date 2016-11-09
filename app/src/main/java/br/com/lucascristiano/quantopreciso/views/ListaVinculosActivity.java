@@ -34,7 +34,7 @@ public class ListaVinculosActivity extends GenericLoggedInActivity {
     }
 
     private void consultarVinculos(final Context context) {
-        String url = "http://apitestes.info.ufrn.br/ensino-services/services/consulta/listavinculos/usuario";
+        String url = UfrnServiceUtil.getVinculosUrl();
         OAuthTokenRequest.getInstance().resourceRequest(context, Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -48,7 +48,7 @@ public class ListaVinculosActivity extends GenericLoggedInActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("VolleyError", error.toString());
-                        Log.d("VolleyError", error.getStackTrace().toString());
+                        error.printStackTrace();
                         Toast.makeText(context, "Falhou ao consultar vínculos.", Toast.LENGTH_SHORT).show();
                     }
                 });

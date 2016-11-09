@@ -7,6 +7,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.lucascristiano.quantopreciso.models.Nota;
+import br.com.lucascristiano.quantopreciso.models.SituacaoTurma;
 import br.com.lucascristiano.quantopreciso.models.Turma;
 import br.com.lucascristiano.quantopreciso.models.Vinculo;
 
@@ -15,6 +17,20 @@ import br.com.lucascristiano.quantopreciso.models.Vinculo;
  */
 
 public class UfrnServiceUtil {
+
+    private static final String ROOT_URL = "http://apitestes.info.ufrn.br/ensino-services/services";
+
+    public static String getVinculosUrl() {
+        return ROOT_URL + "/consulta/listavinculos/usuario";
+    }
+
+    public static String getTurmasUrl(int idDiscente) {
+        return ROOT_URL + "/consulta/turmas/usuario/discente/" + idDiscente;
+    }
+
+    public static String getSituacaoTurmaUrl(int idDiscente, int idTurma) {
+        return ROOT_URL + "/consulta/matriculacomponente/discente/" + idDiscente + "/" + idTurma;
+    }
 
     public static List<Vinculo> getVinculosFromJson(String response) {
         List<Vinculo> vinculos = new ArrayList<>();
@@ -58,6 +74,31 @@ public class UfrnServiceUtil {
             e.printStackTrace();
         }
         return turmas;
+    }
+
+    public static SituacaoTurma getSituacaoTurmaFromJson(String response) {
+        SituacaoTurma situacaoTurma = null;
+        try {
+            JSONObject rootObject = new JSONObject(response);
+            boolean consolidada = rootObject.getBoolean("consolidada");
+
+            List<Nota> notas = new ArrayList<>();
+            JSONArray notasUnidadeArray = rootObject.getJSONArray("notasUnidade");
+            for(int i = 0; i < notasUnidadeArray.length(); i++) {
+                JSONObject notaObject = notasUnidadeArray.getJSONObject(i);
+
+                int unidade = notaObject.getInt("unidade");
+                double media = notaObject.getDouble("media");
+
+                Nota nota = new Nota(unidade, media);
+                notas.add(nota);
+            }
+
+            situacaoTurma = new SituacaoTurma(notas, consolidada);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return situacaoTurma;
     }
 
 }

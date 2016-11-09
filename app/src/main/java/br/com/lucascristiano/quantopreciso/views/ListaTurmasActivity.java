@@ -38,15 +38,15 @@ public class ListaTurmasActivity extends GenericLoggedInActivity {
     }
 
     private void consultarTurmas(final Context context, Vinculo vinculo) {
-        int idDiscente = vinculo.getIdDiscente();
-        String url = "http://apitestes.info.ufrn.br/ensino-services/services/consulta/turmas/usuario/discente/" + idDiscente;
+        final int idDiscente = vinculo.getIdDiscente();
+        String url = UfrnServiceUtil.getTurmasUrl(idDiscente);
         OAuthTokenRequest.getInstance().resourceRequest(context, Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         List<Turma> turmas = UfrnServiceUtil.getTurmasFromJson(response);
                         Toast.makeText(context, turmas.toString(), Toast.LENGTH_LONG).show();
 
-                        TurmasAdapter turmasAdapter = new TurmasAdapter(turmas);
+                        TurmasAdapter turmasAdapter = new TurmasAdapter(turmas, idDiscente);
                         recyclerViewTurmas.setAdapter(turmasAdapter);
                     }
                 },
@@ -54,7 +54,7 @@ public class ListaTurmasActivity extends GenericLoggedInActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("VolleyError", error.toString());
-                        Log.d("VolleyError", error.getStackTrace().toString());
+                        error.printStackTrace();
                         Toast.makeText(context, "Falhou ao consultar turmas.", Toast.LENGTH_SHORT).show();
                     }
                 });

@@ -21,9 +21,11 @@ import br.com.lucascristiano.quantopreciso.views.NotasActivity;
 public class TurmasAdapter extends RecyclerView.Adapter<TurmasAdapter.TurmasItemViewHolder> {
 
     private List<Turma> turmas;
+    private int idDiscente;
 
-    public TurmasAdapter(List<Turma> turmas) {
+    public TurmasAdapter(List<Turma> turmas, int idDiscente) {
         this.turmas = turmas;
+        this.idDiscente = idDiscente;
     }
 
     @Override
@@ -74,6 +76,7 @@ public class TurmasAdapter extends RecyclerView.Adapter<TurmasAdapter.TurmasItem
 
             Intent intentTurmas = new Intent(context, NotasActivity.class);
             intentTurmas.putExtra("turma", turma);
+            intentTurmas.putExtra("idDiscente", idDiscente);
             context.startActivity(intentTurmas);
         }
     }
