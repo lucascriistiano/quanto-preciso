@@ -3,7 +3,6 @@ package br.com.lucascristiano.quantopreciso.views;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
@@ -22,7 +21,7 @@ import br.com.lucascristiano.quantopreciso.oauth.OAuthTokenRequest;
 import br.com.lucascristiano.quantopreciso.util.UfrnServiceUtil;
 
 
-public class ListaTurmasActivity extends AppCompatActivity {
+public class ListaTurmasActivity extends GenericLoggedInActivity {
 
     private RecyclerView recyclerViewTurmas;
 
@@ -45,6 +44,7 @@ public class ListaTurmasActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         List<Turma> turmas = UfrnServiceUtil.getTurmasFromJson(response);
+                        Toast.makeText(context, turmas.toString(), Toast.LENGTH_LONG).show();
 
                         TurmasAdapter turmasAdapter = new TurmasAdapter(turmas);
                         recyclerViewTurmas.setAdapter(turmasAdapter);

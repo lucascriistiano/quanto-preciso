@@ -2,7 +2,6 @@ package br.com.lucascristiano.quantopreciso.views;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
@@ -20,7 +19,7 @@ import br.com.lucascristiano.quantopreciso.oauth.OAuthTokenRequest;
 import br.com.lucascristiano.quantopreciso.util.UfrnServiceUtil;
 
 
-public class ListaVinculosActivity extends AppCompatActivity {
+public class ListaVinculosActivity extends GenericLoggedInActivity {
 
     private RecyclerView recyclerViewVinculos;
 
