@@ -65,7 +65,7 @@ public class UfrnServiceUtil {
                 int idTurma = turmaObject.getInt("id");
                 String descricao = turmaObject.getString("descricao");
                 String local = turmaObject.getString("local");
-                String horario = turmaObject.getString("horario");
+                String horario = turmaObject.getString("descricaoHorario");
 
                 Turma turma = new Turma(idTurma, descricao, local, horario);
                 turmas.add(turma);

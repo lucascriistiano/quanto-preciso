@@ -44,7 +44,6 @@ public class ListaTurmasActivity extends GenericLoggedInActivity {
                     @Override
                     public void onResponse(String response) {
                         List<Turma> turmas = UfrnServiceUtil.getTurmasFromJson(response);
-                        Toast.makeText(context, turmas.toString(), Toast.LENGTH_LONG).show();
 
                         TurmasAdapter turmasAdapter = new TurmasAdapter(turmas, idDiscente);
                         recyclerViewTurmas.setAdapter(turmasAdapter);
