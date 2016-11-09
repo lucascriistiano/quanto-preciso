@@ -7,11 +7,13 @@ public class Nota {
 
     private int unidade;
     private double notaAtual;
+    private boolean lancada;
     private double notaNecessaria;
 
-    public Nota(int unidade, double notaAtual) {
+    public Nota(int unidade, double notaAtual, boolean lancada) {
         this.unidade = unidade;
         this.notaAtual = notaAtual;
+        this.lancada = lancada;
     }
 
     public int getUnidade() {
@@ -28,6 +30,14 @@ public class Nota {
 
     public void setNotaAtual(double notaAtual) {
         this.notaAtual = notaAtual;
+    }
+
+    public boolean isLancada() {
+        return lancada;
+    }
+
+    public void setLancada(boolean lancada) {
+        this.lancada = lancada;
     }
 
     public double getNotaNecessaria() {

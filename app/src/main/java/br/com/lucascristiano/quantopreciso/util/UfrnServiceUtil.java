@@ -1,5 +1,7 @@
 package br.com.lucascristiano.quantopreciso.util;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,9 +90,18 @@ public class UfrnServiceUtil {
                 JSONObject notaObject = notasUnidadeArray.getJSONObject(i);
 
                 int unidade = notaObject.getInt("unidade");
-                double media = notaObject.getDouble("media");
+                double media;
+                boolean lancada;
+                try {
+                    media = notaObject.getDouble("media");
+                    lancada = true;
+                } catch (JSONException e) {
+                    media = 0;
+                    lancada = false;
+                    Log.d("TEST", "Nota da unidade " + unidade + " vazia.");
+                }
 
-                Nota nota = new Nota(unidade, media);
+                Nota nota = new Nota(unidade, media, lancada);
                 notas.add(nota);
             }
 

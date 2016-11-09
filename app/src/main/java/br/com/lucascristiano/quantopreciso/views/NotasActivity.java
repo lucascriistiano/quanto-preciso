@@ -36,8 +36,10 @@ public class NotasActivity extends AppCompatActivity {
         OAuthTokenRequest.getInstance().resourceRequest(context, Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("RESPONSE", response);
+
                         SituacaoTurma situacaoTurma = UfrnServiceUtil.getSituacaoTurmaFromJson(response);
-                        Toast.makeText(context, situacaoTurma.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, situacaoTurma.getUnidades() + " " + situacaoTurma.getNotas(), Toast.LENGTH_LONG).show();
 
                         //TODO Do calculations
                         //TODO Fill fields with calculations results
