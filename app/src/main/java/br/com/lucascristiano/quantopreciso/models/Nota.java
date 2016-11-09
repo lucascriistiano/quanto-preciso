@@ -8,12 +8,14 @@ public class Nota {
     private int unidade;
     private double notaAtual;
     private boolean lancada;
-    private double notaNecessaria;
+    private double notaMinimaNecessaria;
+    private boolean reposicao;
 
-    public Nota(int unidade, double notaAtual, boolean lancada) {
+    public Nota(int unidade, double notaAtual, boolean lancada, boolean reposicao) {
         this.unidade = unidade;
         this.notaAtual = notaAtual;
         this.lancada = lancada;
+        this.reposicao = reposicao;
     }
 
     public int getUnidade() {
@@ -40,12 +42,20 @@ public class Nota {
         this.lancada = lancada;
     }
 
-    public double getNotaNecessaria() {
-        return notaNecessaria;
+    public boolean isReposicao() {
+        return reposicao;
     }
 
-    public void setNotaNecessaria(double notaNecessaria) {
-        this.notaNecessaria = notaNecessaria;
+    public void setReposicao(boolean reposicao) {
+        this.reposicao = reposicao;
+    }
+
+    public double getNotaMinimaNecessaria() {
+        return notaMinimaNecessaria;
+    }
+
+    public void setNotaMinimaNecessaria(double notaMinimaNecessaria) {
+        this.notaMinimaNecessaria = notaMinimaNecessaria;
     }
 
 }

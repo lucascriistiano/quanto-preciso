@@ -21,6 +21,10 @@ import br.com.lucascristiano.quantopreciso.models.Vinculo;
 public class UfrnServiceUtil {
 
     private static final String ROOT_URL = "http://apitestes.info.ufrn.br/ensino-services/services";
+    private static final double NOTA_MINIMA_NECESSARIA = 3.0;
+    private static final double MEDIA_APROVACAO_POR_NOTA = 5.0;
+    private static final double MEDIA_APROVACAO = 7.0;
+
 
     public static String getVinculosUrl() {
         return ROOT_URL + "/consulta/listavinculos/usuario";
@@ -65,11 +69,12 @@ public class UfrnServiceUtil {
                 JSONObject turmaObject = rootArray.getJSONObject(i);
 
                 int idTurma = turmaObject.getInt("id");
+                String nomeComponente = turmaObject.getString("nomeComponente");
                 String descricao = turmaObject.getString("descricao");
                 String local = turmaObject.getString("local");
                 String horario = turmaObject.getString("descricaoHorario");
 
-                Turma turma = new Turma(idTurma, descricao, local, horario);
+                Turma turma = new Turma(idTurma, nomeComponente, descricao, local, horario);
                 turmas.add(turma);
             }
         } catch (JSONException e) {
@@ -101,7 +106,7 @@ public class UfrnServiceUtil {
                     Log.d("TEST", "Nota da unidade " + unidade + " vazia.");
                 }
 
-                Nota nota = new Nota(unidade, media, lancada);
+                Nota nota = new Nota(unidade, media, lancada, false);
                 notas.add(nota);
             }
 
@@ -110,6 +115,46 @@ public class UfrnServiceUtil {
             e.printStackTrace();
         }
         return situacaoTurma;
+    }
+
+    public static SituacaoTurma calcularSituacaoTurma(SituacaoTurma situacaoTurma) {
+        List<Nota> notas = situacaoTurma.getNotas();
+
+        double mediaNecessaria = MEDIA_APROVACAO_POR_NOTA;
+        double somaNotasUnidades = 0;
+
+        int unidades = situacaoTurma.getUnidades();
+        int unidadesLancadas = 0;
+        for(Nota nota : notas) {
+            if(nota.isLancada()) {
+                unidadesLancadas++;
+                somaNotasUnidades += nota.getNotaAtual();
+                if(nota.getNotaAtual() < NOTA_MINIMA_NECESSARIA) {
+                    mediaNecessaria = MEDIA_APROVACAO;
+                }
+            }
+        }
+
+        int unidadesNaoLancadas = unidades - unidadesLancadas;
+        if(unidadesNaoLancadas > 0) {
+            double notaMinima = getNotaMinima(mediaNecessaria, unidades, somaNotasUnidades, unidadesNaoLancadas);
+            if(notaMinima < NOTA_MINIMA_NECESSARIA) {
+                notaMinima = Math.min(NOTA_MINIMA_NECESSARIA, getNotaMinima(MEDIA_APROVACAO, unidades, somaNotasUnidades, unidadesNaoLancadas));
+            }
+
+            for(Nota nota : notas) {
+                if(!nota.isLancada()) {
+                   nota.setNotaMinimaNecessaria(notaMinima);
+                }
+            }
+        }
+
+        return situacaoTurma;
+    }
+
+    private static double getNotaMinima(double mediaNecessaria, int totalUnidades, double somaNotasUnidades, int unidadesNaoLancadas) {
+        //media_necessaria = (soma_unidades + (unidades_nao_lancadas * nota_minima)) / total_unidades
+        return ((mediaNecessaria * totalUnidades) - somaNotasUnidades) / unidadesNaoLancadas;
     }
 
 }

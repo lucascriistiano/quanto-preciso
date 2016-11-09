@@ -9,12 +9,14 @@ import java.io.Serializable;
 public class Turma implements Serializable {
 
     private int idTurma;
+    private String nomeComponente;
     private String descricao;
     private String local;
     private String horario;
 
-    public Turma(int idTurma, String descricao, String local, String horario) {
+    public Turma(int idTurma, String nomeComponente, String descricao, String local, String horario) {
         this.idTurma = idTurma;
+        this.nomeComponente = nomeComponente;
         this.descricao = descricao;
         this.local = local;
         this.horario = horario;
@@ -26,6 +28,14 @@ public class Turma implements Serializable {
 
     public void setIdTurma(int idTurma) {
         this.idTurma = idTurma;
+    }
+
+    public String getNomeComponente() {
+        return nomeComponente;
+    }
+
+    public void setNomeComponente(String nomeComponente) {
+        this.nomeComponente = nomeComponente;
     }
 
     public String getDescricao() {
