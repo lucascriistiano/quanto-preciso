@@ -1,4 +1,4 @@
-#Quanto Preciso?
+# Quanto Preciso?
 
 O *Quanto Preciso?* é um aplicativo Android para o cálculo das notas necessárias em cada unidade restante para que o discente seja aprovado, a partir de dados reais obtidos diretamente da API do SIGAA.
 
